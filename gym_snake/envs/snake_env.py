@@ -20,17 +20,17 @@ class SnakeEnv(gym.Env):
 
         self.action_space = spaces.Discrete(3)
         self.observation_space = spaces.Box(
-            dtype=np.float32,
-            low=np.array([0, 0, 0, -1, -1]),
-            high=np.array([1, 1, 1, 1, 1]),
+            low=np.array([0, 0, 0, -1, -1], np.float32),
+            high=np.array([1, 1, 1, 1, 1], np.float32),
         )
 
         self.seed()
         self.viewer = None
         self.rewards = None
 
-    def set_rewards(self, rew_step, rew_apple, rew_death, rew_death2, rew_apple_func):
-        self.rewards = [rew_step, rew_apple, rew_death, rew_death2, rew_apple_func]
+    def set_rewards(self, **kwargs):
+        '''rew_step, rew_apple, rew_death, rew_death2, rew_apple_func, rew_apple_func'''
+        self.rewards = kwargs
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
@@ -56,9 +56,7 @@ class SnakeEnv(gym.Env):
     def reset(self):
         if self.rewards:
             self.snake = Snake(self.blocks, self.width // self.blocks, self.np_random,
-                               rew_step=self.rewards[0], rew_apple=self.rewards[1],
-                               rew_death=self.rewards[2], rew_death2=self.rewards[3],
-                               rew_apple_func=self.rewards[4],)
+                                **self.rewards)
         else:
             self.snake = Snake(self.blocks, self.width // self.blocks, self.np_random)
         raw_state = self.snake.get_raw_state()
