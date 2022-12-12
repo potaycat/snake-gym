@@ -1,0 +1,17 @@
+[project]
+name = "gym_snake_longnh"
+version = "0.0.2"
+readme = "README.md"
+requires-python = ">=3"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+  'gym < 0.26.0',
+]
+
+[project.urls]
+"Homepage" = "https://github.com/potaycat/snake-gym"
+
+[tool.setuptools]
+packages = ["gym_snake", "gym_snake.envs"]
